@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>JSP Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cosmo/bootstrap.min.css" />
+    <script src="component/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+    <link href="component/DataTables/datatables.min.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <h3 style="color:white;">Student Management Crud Ajax</h3>
+</nav>
+
+</br>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <form id="frmStudent" name="frmStudent">
+
+                <div class="form-group" align="left">
+                    <label>Student Name</label>
+                    <input type="text" id="studentname" name="studentname" placeholder="Student Name" class="form-control" required>
+                </div>
+
+                <div class="form-group" align="left">
+                    <label>Course</label>
+                    <input type="text" id="course" name="course" placeholder="Course" class="form-control" required>
+                </div>
+
+                <div class="form-group" align="left">
+                    <label>Fee</label>
+                    <input type="text" id="fee" name="fee" placeholder="Fee" class="form-control" required>
+                </div>
+
+                <div class="form-group" align="left">
+                    <button type="button" class="btn btn-success" id="save" onclick="addStudent()">Add</button>
+                    <button type="button" class="btn btn-warning" id="update" onclick="updateStudent()">Update</button>
+
+
+                </div>
+
+
+
+
+            </form>
+
+        </div>
+
+        <div class="col-sm-8">
+            <div class="panel-body">
+                <table id="tbl-student" class="table table-bordered" cellpadding="0" cellspacing="0" width="100%">
+                    <thead>
+                    <tr><th>Student Name</th><th>Course</th><th>Fee</th><th>Edit</th><th>Delete</th></tr>
+                    </thead>
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script src="component/jquery.validate.min.js" type="text/javascript"></script>
+<script src="component/DataTables/datatables.min.js" type="text/javascript"></script>
+
+
+
+<script>
+    var isNew = true;
+    var studid = null;
+    getall();
+
+    //Add Records
+    function addStudent()
+    {
+
+        if($("#frmStudent").valid())
+        {
+            var url = "";
+            var data = "";
+            var method;
+
+
+            if(isNew == true)
+            {
+            	
+              //  var apiBasePath = /*[[${@environment.getProperty('api.base.path')}]]*/ 'http://default-value.com/api';
+                url = "[[${@environment.getProperty('api.base.path')}]]/Student/save";
+                data = $("#frmStudent").serialize();
+                method = 'POST'
+            }
+
+
+            $.ajax({
+                type: method,
+                url : url,
+                dataType : "JSON",
+                data : data,
+                success:function(data)
+                {
+                    $('#studentname').val("");
+                    $('#course').val("");
+                    $('#fee').val("");
+                    console.log(data);
+                    getall();
+
+                    if(data.status == "success")
+                    {
+                        alert("Record Addedd");
+                    }
+                    else
+                    {
+
+                        alert("Record Updateedddd");
+                    }
+                }
+
+            });
+        }
+    }
+
+    //Update Records
+
+    function updateStudent()
+    {
+    if($("#frmStudent").valid())
+    {
+        var url = "";
+        var data = "";
+        var method;
+
+
+        if(isNew == false)
+        {
+
+            url = "[[${@environment.getProperty('api.base.path')}]]/Student/edit/" + studid ;
+            data = $("#frmStudent").serialize();
+            method = 'POST'
+
+        }
+        $.ajax({
+            type: method,
+            url : url,
+            dataType : "JSON",
+            data : data,
+            success:function(data)
+            {
+                $('#studentname').val("");
+                $('#course').val("");
+                $('#fee').val("");
+                console.log(data);
+                getall();
+
+                if(data.status == "success")
+                {
+                    alert("Record Updateedddd");
+                }
+                else
+                {
+
+                    alert("Record Error");
+                }
+            }
+
+        });
+    }
+    }
+
+
+    //View Records
+
+    function getall()
+    {
+        $('#tbl-student').dataTable().fnDestroy();
+        $.ajax({
+
+            url:"[[${@environment.getProperty('api.base.path')}]]/Student/list",
+            type: "GET",
+            dataType: "JSON",
+            success:function(data)
+            {
+                $("#tbl-student").dataTable({
+                    "data": data,
+                    "columns": [
+                        { data: 'studentname' },
+                        { data: 'course' },
+                        { data: 'fee' },
+                        {
+                            data: null,
+                            render : function(data, type, full, meta)
+                            {
+                                return '<button class="btn btn-success" onclick="get_details('+ data.id  + ')">Edit</button>';
+                            }
+                        },
+                        {
+                            data: null,
+                            render : function(data, type, full, meta)
+                            {
+                                return '<button class="btn btn-danger" onclick="get_Delete('+ data.id  + ')">Delete</button>';
+                            }
+                        }
+
+                    ]
+                });
+            }
+        });
+
+    }
+
+    //Get Records
+
+    function get_details(id)
+    {
+
+    $.ajax({
+
+        type : "POST",
+        url : "[[${@environment.getProperty('api.base.path')}]]/Student/get/" + id,
+
+
+        success:function(data)
+        {
+           console.log(data)
+
+            isNew = false
+            console.log(data);
+
+            studid = data.id
+            $('#studentname').val(data.studentname);
+            $('#course').val(data.course);
+            $('#fee').val(data.fee);
+
+        }
+
+    });
+    }
+
+
+    //Delete Records
+    function get_Delete(id)
+    {
+
+        $.ajax({
+
+            type: "POST",
+            url : "[[${@environment.getProperty('api.base.path')}]]/Student/delete/" + id,
+            dataType : "JSON",
+
+            success:function(data)
+            {
+                alert("Record Deleted");
+                $('#studentname').val("");
+                $('#course').val("");
+                $('#fee').val("");
+                getall();
+
+            }
+
+        });
+
+    }
+
+</script>
+
+</body>
+</html>

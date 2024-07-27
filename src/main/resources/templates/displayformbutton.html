@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<div th:replace="~{header}"></div>
+<br><br><br>
+<head>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<meta charset="UTF-8">
+<title>Display Form</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row col-md-8 offset-md-2">
+			<div class="card">
+				<div class="card-header">
+					<h2 class="text-center">Display AJAX Form</h2>
+				</div>
+				<div class="card-body">
+				<button type="button" id="displaytablebutton" class="btn btn-primary">Display Form</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="formContainer"></div>
+
+<script>
+$(document).ready(function () {
+
+	   let element = document.getElementById('displayformbutton');
+	   
+	   if (element) {
+		
+		element.addEventListener('click', function(event) {
+			
+			$.ajax({
+	                url: '/form/showform', 
+	                type: 'get',
+	                success: function (response) {
+	                	console.log(response);
+					$('#formContainer').html(response);	
+	                },
+	                error: function (xhr, status, error) {
+			        console.log("Error: " + error);
+	    }
+	            });
+			
+			});
+		
+		
+	}else {
+		console.error("Element Not Found");
+	}
+
+	});
+
+</script>
+
+</body>
+</html>
