@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:replace="~{/header}"></div>
+<br><br><br>
+<div class="container">
+		<div class="row col-md-8 offset-md-2">
+			<div class="card">
+				<div class="card-header">
+					<h2 class="text-center">Mobile Registration
+					</h2>
+				</div>
+				<div th:if="${param.success}">
+				<div class="alert alert-info">
+					Mobile was successfully registered
+				</div>
+				</div>
+				<div class="card-body">
+				<form method="post" role="form" th:action="@{/mobile/save}" th:object="${mobile}">
+				
+				<div class="form-group mb-3">
+					<label class="form-label">Brand Name</label>
+					<input 
+					class="form-control" 
+					id="brandName" 
+					name="brandName"
+					placeholder="Enter the brand name"
+					type="text"
+					th:field="*{brandname}"
+					/>
+					<p th:if="${#fields.hasErrors('brandname')}" class="text-danger"
+					th:errors="*{brandname}"></p>
+				</div>
+				<div class="form-group mb-3">
+					<label class="form-label">Model</label>
+					<input 
+					class="form-control" 
+					id="model" 
+					name="model"
+					placeholder="Enter the model name"
+					type="text"
+					th:field="*{model}"
+					/>
+					<p th:if="${#fields.hasErrors('model')}" class="text-danger"
+					th:errors="*{model}"></p>
+				</div>
+				<div class="form-group mb-3">
+					<label class="form-label">RAM Size</label>
+					<input 
+					class="form-control" 
+					id="ram" 
+					name="ram"
+					placeholder="Enter the ram size"
+					type="text"
+					th:field="*{ram}"
+					/>
+					<p th:if="${#fields.hasErrors('ram')}" class="text-danger"
+					th:errors="*{ram}"></p>
+				</div>
+				<div class="form-group mb-3">
+					<label class="form-label">ROM Size</label>
+					<input 
+					class="form-control" 
+					id="rom" 
+					name="rom"
+					placeholder="Enter the rom size"
+					type="text"
+					th:field="*{rom}"
+					/>
+					<p th:if="${#fields.hasErrors('rom')}" class="text-danger"
+					th:errors="*{rom}"></p>
+				</div>
+				<div class="form-group mb-3">
+					<label class="form-label">Battery Capacity</label>
+					<input 
+					class="form-control" 
+					id="battery" 
+					name="battery"
+					placeholder="Enter the rom size"
+					type="text"
+					th:field="*{battery}"
+					/>
+					<p th:if="${#fields.hasErrors('battery')}" class="text-danger"
+					th:errors="*{battery}"></p>
+				</div>
+				<div class="form-group mb-3">
+					<button type="submit" class="btn btn-primary">Register</button>
+					<span>Already registered?
+					<a th:href="@{/login}">Login Here</a>
+					</span>
+				</div>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

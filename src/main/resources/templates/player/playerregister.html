@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+
+<meta charset="UTF-8">
+<title>Spring Boot AJAX Player Registration</title>
+</head>
+<body>
+<div th:replace="~{/header}"></div>
+<br><br><br>
+<div class="container">
+		<div class="row col-md-8 offset-md-2">
+			<div class="card">
+				<div class="card-header">
+					<h2 class="text-center"> Player Registration
+					</h2>
+				</div>
+				<div th:if="${param.success}">
+				<div class="alert alert-info">
+					Player was registered Successfully!
+				</div>
+				</div>
+				<div class="card-body">
+				<form method="post" id="playerregisterform"role="form" th:action="@{/playregister/save}" th:object="${player}">
+				
+				<div class="form-group mb-3">
+					<label class="form-label">Name</label>
+					<input 
+					class="form-control" 
+					id="playername" 
+					name="playername"
+					placeholder="Enter player name"
+					type="text"
+					th:field="*{playername}"
+					/>
+					<p th:if="${#fields.hasErrors('playername')}" class="text-danger"
+					th:errors="*{playername}"></p>
+				</div>
+				
+				<div class="form-group mb-3">
+					<label class="form-label">Email Id</label>
+					<input 
+					class="form-control" 
+					id="playeremail" 
+					name="playeremail"
+					placeholder="Enter email address"
+					type="email"
+					th:field="*{playeremail}"
+					/>
+					<p th:if="${#fields.hasErrors('playeremail')}" class="text-danger"
+					th:errors="*{playeremail}"></p>
+				</div>
+				<div class="form-group mb-3">
+					<label class="form-label">Password</label>
+					<input 
+					class="form-control" 
+					id="password" 
+					name="password"
+					placeholder="Enter Password"
+					type="password"
+					th:field="*{password}"
+					/>
+					<p th:if="${#fields.hasErrors('password')}" class="text-danger"
+					th:errors="*{password}"></p>
+				</div>
+				<div class="form-group mb-3">
+					<button type="submit" class="btn btn-primary">Register</button>
+					<span>Already registered?
+					<a th:href="@{/login}">Login Here</a>
+					</span>
+				</div>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script th:src="@{/js/playerregisterformvalidation.js}"></script>
+</html>

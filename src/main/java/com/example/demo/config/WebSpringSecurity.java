@@ -58,8 +58,11 @@ public class WebSpringSecurity {
 		.authorizeHttpRequests((authorize) ->
 		authorize.requestMatchers(new AntPathRequestMatcher("/resources/**")).permitAll()
 		.requestMatchers(new AntPathRequestMatcher("/static/component/**")).permitAll()
+		.requestMatchers(new AntPathRequestMatcher("/mobile/**")).permitAll()
+		.requestMatchers(new AntPathRequestMatcher("/static/js/**")).permitAll()
 		.requestMatchers(new AntPathRequestMatcher("/register/**")).permitAll()
 		.requestMatchers(new AntPathRequestMatcher("/form/**")).permitAll()
+		.requestMatchers(new AntPathRequestMatcher("/player/**")).permitAll()
 		.anyRequest().authenticated()
 		 )
 		.formLogin()

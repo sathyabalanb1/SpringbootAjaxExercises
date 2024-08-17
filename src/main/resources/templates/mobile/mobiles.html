@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<meta charset="UTF-8">
+<title>Mobile Dropdown</title>
+<script th:src="@{/js/fetchdescription.js}"></script>
+<style type="text/css">
+table{
+border: 1px solid;
+}
+th, td, tr{
+border: 1px solid;
+}
+
+</style>
+
+</head>
+<body>
+<div th:replace="~{/header}"></div>
+<br><br><br>
+	<label class="form-label">Choose a mobile:</label>
+
+	<select class="form-control" id="mobilephones" name="mobilephones" onchange="selectBrand()">
+
+		<option value="">Select a brand</option>
+		<option th:each="mobile : ${mobiles}" th:value="${mobile}"
+			th:text="${mobile}"></option>
+
+	</select>
+
+<br><br><br>
+
+	<table>
+		<thead>
+			<th style="width: 30%">Model</th>
+			<th style="width: 10%">RAM</th>
+			<th style="width: 10%">Internal Storage</th>
+			<th style="width: 20%">Battery</th>
+		</thead>
+		<tbody id="ans">
+
+		</tbody>
+
+	</table>
+
+
+
+</body>
+</html>
