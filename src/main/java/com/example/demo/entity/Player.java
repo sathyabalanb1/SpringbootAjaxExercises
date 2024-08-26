@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,6 +50,7 @@ public class Player {
 			joinColumns = {@JoinColumn(name = "player_id", referencedColumnName="id")},
 			inverseJoinColumns = {@JoinColumn(name="playerrole_id",referencedColumnName="id")}
 			)
+	@JsonIgnore
 	private List<PlayerRole>playerroles=new ArrayList<>();
 
 }

@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.RegistrationDto;
 import com.example.demo.entity.User;
+import com.example.demo.service.MobileService;
+import com.example.demo.service.PlayerService;
+import com.example.demo.service.StudentService;
 import com.example.demo.service.UserService;
 
 import jakarta.validation.Valid;
@@ -24,8 +28,17 @@ public class ViewController {
 
 	private UserService userService;
 	
-	public ViewController(UserService userService) {
+	private PlayerService playerService;
+	
+	private MobileService mobileService;
+	
+	private StudentService studentService;
+	
+	public ViewController(UserService userService, PlayerService playerService, MobileService mobileService, StudentService studentService) {
 		this.userService = userService;
+		this.playerService = playerService;
+		this.mobileService = mobileService;
+		this.studentService = studentService;
 	}
 	
 	@GetMapping("/register")
@@ -99,6 +112,42 @@ public class ViewController {
 	//	System.out.println("danda naka danaku nakka");
 	//	return "Now its time to render the table";
 		return new ResponseEntity<>("Now its time to render the table", HttpStatus.OK);
+	}
+	
+	@GetMapping("/form/displayalltabledropdown")
+	public String displayAllTables(Model model) {
+		
+		return "displayalltabledropdown";
+	}
+	
+	/*
+	@GetMapping("/form/getTableData")
+	public String displayTableBySelection(@RequestParam("table") String table) {
+		if (table.equals("table1")) {
+            return tableService.getTable1Data();
+        } else if (table.equals("table2")) {
+            return tableService.getTable2Data();
+        } else if (table.equals("table3")) {
+            return tableService.getTable3Data();
+        }
+        return null;
+	}
+	
+	*/
+	
+	@GetMapping("/form/getTableData")
+	@ResponseBody
+	public List<?> displayTableBySelection(@RequestParam("table") String table) {
+		
+		if(table.equals("players")) {
+			return playerService.getAllPlayers();
+		}else if(table.equals("mobile")) {
+			return mobileService.getAllMobiles();
+		}else if(table.equals("student")) {
+			return studentService.listAll();
+		}
+		
+		return null;
 	}
 
 }

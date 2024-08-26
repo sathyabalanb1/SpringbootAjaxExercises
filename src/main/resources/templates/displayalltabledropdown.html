@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+
+<meta charset="UTF-8">
+<title>Display Table By Selection</title>
+</head>
+<body>
+<div th:replace="~{/header}"></div>
+<br><br><br>
+
+	<div class="container">
+		<div class="row col-md-8 offset-md-2">
+			<div class="card">
+				<div class="card-header">
+					<h2 class="text-center">Display Table By Selection</h2>
+				</div>
+				<div class="card-body">
+					<label class="form-label">Multi Tables</label><br>
+					<select class="form-select" name="seltable" id="seltable" aria-label="Default select example">
+						<option value="" disabled selected>Select a table</option>
+						<option th:value="players">Players</option>
+						<option th:value="mobile">Mobiles</option>
+						<option th:value="student">Students</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<br>
+	
+	<div id="tableContainer">
+    <!-- Dynamic table will be inserted here -->
+</div>
+
+
+
+
+</body>
+<script th:src="@{/js/displayallajaxtables.js}"></script>
+
+</html>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.MobileDto;
 import com.example.demo.entity.Mobile;
 import com.example.demo.mapper.MobileMapper;
+import com.example.demo.mapper.PlayerMapper;
 import com.example.demo.repository.MobileRepository;
 import com.example.demo.service.MobileService;
 
@@ -56,6 +57,14 @@ public class MobileServiceImpl implements MobileService{
 	public List<MobileDto> getMobileInfoByBrand(String brandname){
 		
 		List<Mobile> mobiles = mobileRepository.findMobileByBrandname(brandname);
+		
+		return mobiles.stream().map(MobileMapper :: mapToMobileDto)
+				.collect(Collectors.toList());
+	}
+	
+	public List<MobileDto> getAllMobiles(){
+		
+		List<Mobile> mobiles = mobileRepository.findAll();
 		
 		return mobiles.stream().map(MobileMapper :: mapToMobileDto)
 				.collect(Collectors.toList());

@@ -13,5 +13,7 @@ public interface MobileService {
 	List<String> findAllMobiles();
 	
 	List<MobileDto> getMobileInfoByBrand(String brandname);
+	
+	List<MobileDto> getAllMobiles();
 
 }

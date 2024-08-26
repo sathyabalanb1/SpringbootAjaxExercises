@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>AJAX Dropdown</title>
+</head>
+<body>
+<div th:replace="~{/header}"></div>
+<br><br><br>
+<div class="container">
+		<div class="row col-md-8 offset-md-2">
+			<div class="card">
+				<div class="card-header">
+					<h2 class="text-center">Display AJAX Dropdown</h2>
+				</div>
+				<div class="card-body">
+				<button type="button" id="displaydropdownbutton" class="btn btn-primary">Display Dropdown</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<br><br><br>
+	
+		<div class="container mt-4" id="selectiondropdown">	
+		
+		</div>
+
+</body>
+<script th:src="@{/js/displayajaxdropdown.js}"></script>
+
+</html>

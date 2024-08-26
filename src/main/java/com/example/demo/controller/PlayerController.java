@@ -1,14 +1,19 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.PlayerDto;
+import com.example.demo.entity.Player;
 import com.example.demo.service.PlayerService;
 
 import jakarta.validation.Valid;
@@ -73,11 +78,42 @@ public class PlayerController {
 		
 		return "redirect:/player/register?success";
 	}
+	
+	
+	@GetMapping("/form/displaydropdownbutton")
+	public String displayForm(Model model) {
+		
+		return "player/displaydropdownbutton";
+	}
 
 	
+	@GetMapping("/form/showdropdown")
+	@ResponseBody
+	public List<Player> showDropForm(Model model) {
+		
+	 List<Player>players = playerService.fetchPlayerDetails();
+	 
+	 System.out.println(players.get(0).getPlayername());
+	 
+	 return players;
+		
+	}
 	
 	
 	
+	/*
+	@GetMapping("/form/showdropdown")
+	@ResponseBody
+	public ResponseEntity<List<Player>> showDropForm(Model model) {
+		
+	 List<Player>players = playerService.fetchPlayerDetails();
+	 
+	 System.out.println(players.get(0).getPlayername());
+	 
+	 return new ResponseEntity<>(players, HttpStatus.OK);
+		
+	}
+	*/
 	
 	
 	
