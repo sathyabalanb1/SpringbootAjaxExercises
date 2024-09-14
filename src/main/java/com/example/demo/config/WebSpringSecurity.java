@@ -1,20 +1,30 @@
 package com.example.demo.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSpringSecurity {
 	
+//	private UserRepository userRepository;
 	
+	private UserDetailsService userDetailsService;
+	
+	public WebSpringSecurity(UserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
 	
 	/*
 	@Bean
@@ -51,6 +61,27 @@ public class WebSpringSecurity {
 	
 	*/
 	
+	/*
+	@Bean
+    UserDetailsService userDetailsService() {
+        return new CustomUserDetailsService(userRepository);
+    }
+    */
+	
+	@Bean
+	public PasswordEncoder getPasswordEncoder() {
+		return NoOpPasswordEncoder.getInstance();
+	}
+	
+	@Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(getPasswordEncoder());
+         
+        return authProvider;
+    }
+	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
@@ -63,6 +94,7 @@ public class WebSpringSecurity {
 		.requestMatchers(new AntPathRequestMatcher("/register/**")).permitAll()
 		.requestMatchers(new AntPathRequestMatcher("/form/**")).permitAll()
 		.requestMatchers(new AntPathRequestMatcher("/player/**")).permitAll()
+		.requestMatchers(new AntPathRequestMatcher("/playerselectionform")).authenticated()
 		.anyRequest().authenticated()
 		 )
 		.formLogin()

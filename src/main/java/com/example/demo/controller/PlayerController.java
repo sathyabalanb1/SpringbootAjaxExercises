@@ -10,9 +10,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.PlayerDto;
+import com.example.demo.dto.SelectionDto;
 import com.example.demo.entity.Player;
 import com.example.demo.service.PlayerService;
 
@@ -96,6 +98,16 @@ public class PlayerController {
 	 System.out.println(players.get(0).getPlayername());
 	 
 	 return players;
+		
+	}
+	
+	
+	@PostMapping("/makeselection")
+	public ResponseEntity<String> makeOrder(@RequestBody List<SelectionDto> selectedPlayers)
+	{
+		playerService.processSelection(selectedPlayers);
+		
+		return new ResponseEntity<>("Player Selection Completed Successfully", HttpStatus.OK);
 		
 	}
 	

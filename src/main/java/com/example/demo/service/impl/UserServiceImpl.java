@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService{
 		user.setPassword(registrationDto.getPassword());
 	//	user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
 		
-		Role role = roleRepository.findByName("ROLE_GUEST");
+		Role role = roleRepository.findByName("ROLE_USER");
 		
 		user.setRoles(Arrays.asList(role));
 		userRepository.save(user);

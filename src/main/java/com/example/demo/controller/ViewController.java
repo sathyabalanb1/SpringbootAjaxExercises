@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.dto.PlayerDto;
 import com.example.demo.dto.RegistrationDto;
 import com.example.demo.entity.User;
 import com.example.demo.service.MobileService;
@@ -148,6 +151,30 @@ public class ViewController {
 		}
 		
 		return null;
+	}
+	
+	@GetMapping("/form/displayloginform")
+	public String displayLoginForm() {
+		
+		return "authentication/loginform";
+	}
+	
+	@GetMapping("/playerselectionform")
+	public String displayPlayerSelectionForm(Model model) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		String email = authentication.getName();
+				
+		User user = userService.findByEmail(email);
+		
+		List<PlayerDto>players = playerService.getAllPlayers();
+		
+		model.addAttribute("players", players);
+		model.addAttribute("user", user);
+		
+		return "/player/playerselection";	
+		
 	}
 
 }
