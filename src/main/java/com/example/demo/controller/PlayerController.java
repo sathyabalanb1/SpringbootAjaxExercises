@@ -101,13 +101,41 @@ public class PlayerController {
 		
 	}
 	
-	
+	/*
 	@PostMapping("/makeselection")
 	public ResponseEntity<String> makeOrder(@RequestBody List<SelectionDto> selectedPlayers)
 	{
 		playerService.processSelection(selectedPlayers);
 		
 		return new ResponseEntity<>("Player Selection Completed Successfully", HttpStatus.OK);
+		
+	}
+	
+	*/
+	
+	/*
+	@PostMapping("/makeselection")
+	@ResponseBody
+	public String makeOrder(@RequestBody List<SelectionDto> selectedPlayers)
+	{
+		playerService.processSelection(selectedPlayers);
+		
+	//	return new ResponseEntity<>("Player Selection Completed Successfully", HttpStatus.OK);
+		
+		return "Player Selection Completed Successfully";
+		
+	}
+	*/
+	
+	@PostMapping("/makeselection")
+	@ResponseBody
+	public void makeOrder(@RequestBody List<SelectionDto> selectedPlayers)
+	{
+		playerService.processSelection(selectedPlayers);
+		
+	//	return new ResponseEntity<>("Player Selection Completed Successfully", HttpStatus.OK);
+		
+		return;
 		
 	}
 	
